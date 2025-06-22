@@ -1,0 +1,292 @@
+erDiagram
+    %% Entidades principais
+    USUARIO {
+        int id PK
+        varchar nome
+        varchar email UK
+        varchar senha_hash
+        varchar perfil
+        timestamp criado_em
+        timestamp atualizado_em
+    }
+
+    PACIENTE {
+        int id PK
+        varchar registro_hu
+        varchar nome
+        char sexo
+        date data_nascimento
+        varchar naturalidade
+        varchar nacionalidade
+        varchar estado_civil
+        varchar endereco
+        varchar bairro
+        varchar municipio
+        varchar cep
+        varchar telefone_residencial
+        varchar celular
+        varchar contato_recado
+        varchar escolaridade
+        varchar profissao
+        varchar religiao
+        varchar situacao_trabalho
+        numeric renda_familiar
+        smallint num_dependentes
+        varchar origem_atendimento
+        boolean tratamento_previo
+        varchar tratamento_previo_quando
+        text percepcao_saude
+        boolean em_tratamento
+        varchar tratamento_desc
+        varchar tratamento_local
+        boolean uso_medicacao
+        text medicacoes_desc
+        boolean gravida_ou_amamentando
+        text medicamentos_psiquiatricos
+        varchar tempo_medicacao_psiquiatrica
+        smallint had_ansiedade_pontos
+        smallint had_depressao_pontos
+        boolean possui_disturbio
+        boolean em_tratamento_disturbio
+        boolean uso_substancias
+        varchar freq_substancias
+        boolean parou_substancias
+        smallint ano_parou_substancias
+        boolean uso_alcool
+        smallint idade_inicio_alcool
+        text influencia_beber
+        boolean bebe_12meses
+        boolean cage_perg1
+        boolean cage_perg2
+        boolean cage_perg3
+        boolean cage_perg4
+        smallint audit_pontos
+        text influencia_fumar
+        smallint idade_inicio_tabagismo
+        smallint anos_fumante
+        smallint cigarros_por_dia
+        varchar tipo_tabaco_outros
+        varchar marca_cigarro
+        varchar info_cigarro_eletronico
+        numeric gasto_mensal
+        smallint cigarros_dias_uteis
+        smallint cigarros_fim_semana
+        varchar comparacao_ultimo_ano
+        boolean tentou_parar_12meses
+        numeric carga_tabagica
+        smallint fag_pergunta1
+        boolean fag_pergunta2
+        boolean fag_pergunta3
+        smallint fag_pergunta4
+        boolean fag_pergunta5
+        boolean fag_pergunta6
+        smallint fag_total_pontos
+        varchar grau_dependencia
+        boolean pai_fumante
+        boolean mae_fumante
+        boolean irmaos_fumantes
+        boolean outros_fumantes_familia
+        varchar outros_fumantes_quem
+        boolean outros_fumam_casa
+        varchar outros_fumam_casa_quem
+        boolean fuma_dentro_casa
+        boolean fuma_no_trabalho
+        boolean outros_fumam_trabalho
+        boolean proibicao_fumar_trabalho
+        text motivo_fumar
+        text motivo_parar
+        varchar avaliacao_balanceamento
+        smallint tentativas_parar
+        varchar tempo_maior_abstinencia
+        boolean uso_remedio_tentativas
+        text remedios_tentativas
+        varchar tempo_uso_remedio
+        text motivo_parou_remedio
+        tinyint frase_motivacao
+        varchar estagio_mudanca
+        smallint autoeficacia_preparacao
+        smallint autoeficacia_importancia
+        boolean informou_familia
+        text rede_apoio
+        text lazer_redutor
+        decimal horas_sono
+        boolean insonia
+        decimal hidratacao_l_dia
+        boolean alimentacao_variada
+        boolean exercicio
+        smallint freq_exercicio_semana
+        varchar tipo_exercicio
+        text sintomas
+        smallint sinais_vitais_pa_sistolica
+        smallint sinais_vitais_pa_diastolica
+        smallint sinais_vitais_fc
+        smallint sinais_vitais_fr
+        decimal peso_kg
+        decimal altura_m
+        decimal imc
+        smallint co_ppm
+        smallint saturacao_o2
+        text exame_fisico
+        date data_rx_tc
+        varchar tipo_imagem_torax
+        date exame_pfr_data
+        decimal exame_pfr_vef1
+        decimal exame_pfr_it
+        date exame_lab_data
+        decimal lab_hb
+        decimal lab_hdl
+        decimal lab_ldl
+        decimal lab_ct
+        decimal lab_tg
+        decimal lab_cr
+        decimal lab_ureia
+        text ecg_resultado
+        text outros_exames
+        varchar resumo_dependencia
+        varchar resumo_estagio
+        smallint resumo_had_ansiedade
+        smallint resumo_had_depressao
+        smallint resumo_audit
+        text plano_terapeutico
+        text encaminhamentos
+        text observacoes
+        int profissional_id FK
+        date data_avaliacao
+    }
+
+    CONDICAO {
+        int id PK
+        varchar nome
+        varchar tipo
+    }
+
+    SUBSTANCIA {
+        int id PK
+        varchar nome
+    }
+
+    TIPO_BEBIDA {
+        int id PK
+        varchar nome
+    }
+
+    PRODUTO_TABACO {
+        int id PK
+        varchar nome
+    }
+
+    GATILHO {
+        int id PK
+        varchar descricao
+    }
+
+    BARREIRA {
+        int id PK
+        varchar descricao
+    }
+
+    CAUSA_RECAIDA {
+        int id PK
+        varchar descricao
+    }
+
+    EXAME {
+        int id PK
+        int paciente_id FK
+        varchar tipo
+        date data
+        bytea arquivo
+        varchar nome_arquivo
+    }
+
+    CONSULTA {
+        int id PK
+        int paciente_id FK
+        int usuario_id FK
+        date data_consulta
+        text notas
+        text plano_tratamento
+    }
+
+    AUDIT_LOG {
+        int id PK
+        int usuario_id FK
+        varchar acao
+        varchar objeto
+        int objeto_id
+        timestamp data_hora
+        text detalhes
+    }
+
+    %% Tabelas associativas (relacionamentos N:M)
+    PACIENTE_CONDICAO {
+        int paciente_id FK
+        int condicao_id FK
+        varchar detalhe
+    }
+
+    PACIENTE_SUBSTANCIA {
+        int paciente_id FK
+        int substancia_id FK
+        varchar detalhe
+    }
+
+    PACIENTE_BEBIDA {
+        int paciente_id FK
+        int bebida_id FK
+        varchar detalhe
+    }
+
+    PACIENTE_PRODUTO_TABACO {
+        int paciente_id FK
+        int produto_id FK
+        varchar detalhe
+    }
+
+    PACIENTE_GATILHO {
+        int paciente_id FK
+        int gatilho_id FK
+        varchar detalhe
+    }
+
+    PACIENTE_BARREIRA {
+        int paciente_id FK
+        int barreira_id FK
+        varchar detalhe
+    }
+
+    PACIENTE_CAUSA_RECAIDA {
+        int paciente_id FK
+        int causa_id FK
+        varchar detalhe
+    }
+
+    %% Relacionamentos
+    USUARIO ||--o{ PACIENTE : "profissional responsável"
+    USUARIO ||--o{ CONSULTA : "registra"
+    USUARIO ||--o{ AUDIT_LOG : "gera"
+
+    PACIENTE ||--o{ EXAME : "possui"
+    PACIENTE ||--o{ CONSULTA : "tem"
+    
+    %% Relacionamentos N:M através das tabelas associativas
+    PACIENTE ||--o{ PACIENTE_CONDICAO : ""
+    CONDICAO ||--o{ PACIENTE_CONDICAO : ""
+    
+    PACIENTE ||--o{ PACIENTE_SUBSTANCIA : ""
+    SUBSTANCIA ||--o{ PACIENTE_SUBSTANCIA : ""
+    
+    PACIENTE ||--o{ PACIENTE_BEBIDA : ""
+    TIPO_BEBIDA ||--o{ PACIENTE_BEBIDA : ""
+    
+    PACIENTE ||--o{ PACIENTE_PRODUTO_TABACO : ""
+    PRODUTO_TABACO ||--o{ PACIENTE_PRODUTO_TABACO : ""
+    
+    PACIENTE ||--o{ PACIENTE_GATILHO : ""
+    GATILHO ||--o{ PACIENTE_GATILHO : ""
+    
+    PACIENTE ||--o{ PACIENTE_BARREIRA : ""
+    BARREIRA ||--o{ PACIENTE_BARREIRA : ""
+    
+    PACIENTE ||--o{ PACIENTE_CAUSA_RECAIDA : ""
+    CAUSA_RECAIDA ||--o{ PACIENTE_CAUSA_RECAIDA : ""
